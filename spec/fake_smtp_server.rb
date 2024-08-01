@@ -59,12 +59,19 @@ class FakeSmtpServer
     close
   end
 
+  def finish
+    sleep 1
+    @socket.close
+  end
+
   private
 
   def close
     @client.close unless @client.nil?
     @orig_client.close unless @orig_client.nil?
   end
+
+
 
   def send(line)
     @client.puts line
@@ -89,7 +96,6 @@ class FakeSmtpServer
       context.key = key
       context.cert = cert
       context.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      context.min_version = nil
       context
     end
   end
@@ -130,28 +136,3 @@ class FakeSmtpServer
   end
 end
 
-FakeSmtpServer.new(3555).start
-
-puts 'fake_smtp_server: Exiting now the conversation has finished.'
-exit 0
-
-# Tested with irb script:
-# require 'net/smtp'
-# 
-# status = ''
-# begin
-#   if @skip_external_checks
-#     status = '250'
-#   else
-#     smtp = Net::SMTP.new('localhost', 3555)
-#     smtp.enable_starttls 
-#     smtp.open_timeout = 10
-#     smtp.read_timeout = 10
-#     smtp.start('domain', 'user_name', 'password', :plain) do
-#       status = smtp.helo('domain').status
-#     end
-#   end
-# rescue Exception => ex
-#   status = ex.to_s
-# end
-# (status =~ /^250/) ? 'PASS' : "FAILED SMTP: #{status || 'unexpected error'}. "

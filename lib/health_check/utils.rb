@@ -145,7 +145,15 @@ module HealthCheck
           status = '250'
         else
           smtp = Net::SMTP.new(settings[:address], settings[:port])
-          smtp.enable_starttls if settings[:enable_starttls_auto]
+          openssl_verify_mode = settings[:openssl_verify_mode]
+
+          if openssl_verify_mode.kind_of?(String)
+            openssl_verify_mode = OpenSSL::SSL.const_get("VERIFY_#{openssl_verify_mode.upcase}")
+          end
+
+          ssl_context = Net::SMTP.default_ssl_context
+          ssl_context.verify_mode = openssl_verify_mode if openssl_verify_mode
+          smtp.enable_starttls(ssl_context) if settings[:enable_starttls_auto]
           smtp.open_timeout = timeout
           smtp.read_timeout = timeout
           smtp.start(settings[:domain], settings[:user_name], settings[:password], settings[:authentication]) do
@@ -162,7 +170,7 @@ module HealthCheck
       t = Time.now.to_i
       value = "ok #{t}"
       ret = ::Rails.cache.read('__health_check_cache_test__')
-      if ret.to_s =~ /^ok (\d+)$/ 
+      if ret.to_s =~ /^ok (\d+)$/
         diff = ($1.to_i - t).abs
         return('Cache expiry is broken. ') if diff > 30
       elsif ret
@@ -170,7 +178,7 @@ module HealthCheck
       end
       if ::Rails.cache.write('__health_check_cache_test__', value, expires_in: 2.seconds)
         ret = ::Rails.cache.read('__health_check_cache_test__')
-        if ret =~ /^ok (\d+)$/ 
+        if ret =~ /^ok (\d+)$/
           diff = ($1.to_i - t).abs
           (diff < 2 ? '' : 'Out of date cache or time is skewed. ')
         else

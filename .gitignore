@@ -13,19 +13,21 @@ lib/bundler/man
 pkg
 rdoc
 spec/reports
-test/tmp
-test/version_tmp
-tmp
+spec/dummy/db/*.sqlite3*
+spec/dummy/log/*
 .ruby-version
 
 ## PROJECT::SPECIFIC
 bin/
-test/bin/
 railsapps/
-test/*.gemfile.lock
+gemfiles/*.gemfile.lock
 ,*
 .vagrant
 ubuntu*console.log
-
+tmp
 # See: https://gist.github.com/ianheggie/9327010
 # for Global git ignore for OS/IDE/temp/backup files
+
+spec/dummy/tmp/*
+!spec/dummy/tmp/.keep
+spec/dummy/db/*.sqlite3

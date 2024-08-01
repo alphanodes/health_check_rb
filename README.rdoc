@@ -175,11 +175,11 @@ To change the configuration of health_check, create a file `config/initializers/
       config.on_failure do |checks, msg|
         # log msg somewhere
       end
-    
+
       config.on_success do |checks|
         # flag that everything is well
       end
-  
+
 
     end
 
@@ -292,7 +292,6 @@ Last-modified is set to the current time (rounded down to a multiple of max_age 
 === Automated testing and other checks
 
 * {<img src="https://badge.fury.io/rb/health_check.svg" alt="Gem Version" />}[http://badge.fury.io/rb/health_check] - Latest Gem
-* {<img src="https://travis-ci.org/ianheggie/health_check.svg">}[https://travis-ci.org/ianheggie/health_check]  - Travis CI
 * {<img src="https://codeclimate.com/github/ianheggie/health_check.svg" />}[https://codeclimate.com/github/ianheggie/health_check] - Code quality
 * {<img src="https://gemnasium.com/ianheggie/health_check.svg">}[https://gemnasium.com/ianheggie/health_check] - Gem dependencies
 
