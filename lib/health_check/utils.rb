@@ -31,7 +31,14 @@ module HealthCheck
           when "emailconf"
             errors << HealthCheck::Utils.check_email if HealthCheck::Utils.mailer_configured?
           when "migrations", "migration"
-            if defined?(ActiveRecord::Migration) and ActiveRecord::Migration.respond_to?(:check_pending!)
+            if defined?(ActiveRecord::Migration) and ActiveRecord::Migration.respond_to?(:check_all_pending!)
+              # Rails 4+
+              begin
+                ActiveRecord::Migration.check_all_pending!
+              rescue ActiveRecord::PendingMigrationError => ex
+                  errors << ex.message
+              end
+            elsif defined?(ActiveRecord::Migration) and ActiveRecord::Migration.respond_to?(:check_pending!)
               # Rails 4+
               begin
                 ActiveRecord::Migration.check_pending!
