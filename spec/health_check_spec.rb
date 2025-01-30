@@ -63,7 +63,7 @@ RSpec.describe HealthCheck, type: :request do
       Dir.glob('spec/dummy/db/migrate/*').each do |f|
         FileUtils.rm f
       end
-      FileUtils.rm 'spec/dummy/db/schema.rb' if File.exist? 'spec/dummy/db/schema.rb'
+      FileUtils.rm 'spec/dummy/db/schema.rb'
       FileUtils.cd FakeApp.config.root do
         ActiveRecord::Tasks::DatabaseTasks.drop_current
       end
@@ -97,7 +97,7 @@ RSpec.describe HealthCheck, type: :request do
       Dir.glob('spec/dummy/db/migrate/*').each do |f|
         FileUtils.rm f
       end
-      FileUtils.rm 'spec/dummy/db/schema.rb' if File.exist? 'spec/dummy/db/schema.rb'
+      FileUtils.rm 'spec/dummy/db/schema.rb'
       FileUtils.cd FakeApp.config.root do
         ActiveRecord::Tasks::DatabaseTasks.drop_current
       end

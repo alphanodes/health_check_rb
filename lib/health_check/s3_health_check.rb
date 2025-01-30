@@ -10,7 +10,7 @@ module HealthCheck
         return create_error 's3', 'Could not connect to aws' if aws_s3_client.nil?
 
         HealthCheck.buckets.each do |bucket_name, permissions|
-          permissions = %i[R W D] if permissions.nil? # backward compatible
+          permissions = %i[try_list_objects try_put_object try_delete_object] if permissions.nil? # backward compatible
           permissions.each do |permision|
             send permision, bucket_name
           rescue StandardError => e
@@ -38,28 +38,20 @@ module HealthCheck
         @aws_s3_client ||= configure_client
       end
 
-      def R(bucket)
+      def try_list_objects(bucket)
         aws_s3_client.list_objects bucket: bucket
       end
 
-      def W(bucket)
-        app_name = if Rails::VERSION::MAJOR >= 6
-                     ::Rails.application.class.module_parent_name
-                   else
-                     ::Rails.application.class.parent_name
-                   end
+      def try_put_object(bucket)
+        app_name = ::Rails.application.class.module_parent_name
 
         aws_s3_client.put_object(bucket: bucket,
                                  key: "healthcheck_#{app_name}",
                                  body: Time.new.to_s)
       end
 
-      def D(bucket)
-        app_name = if Rails::VERSION::MAJOR >= 6
-                     ::Rails.application.class.module_parent_name
-                   else
-                     ::Rails.application.class.parent_name
-                   end
+      def try_delete_object(bucket)
+        app_name = ::Rails.application.class.module_parent_name
         aws_s3_client.delete_object(bucket: bucket,
                                     key: "healthcheck_#{app_name}")
       end

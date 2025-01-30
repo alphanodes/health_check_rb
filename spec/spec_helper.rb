@@ -22,7 +22,7 @@ def enable_custom_check(&)
   File.write CUSTOM_CHECK_FILE_PATH, 'hello'
   yield
 ensure
-  FileUtils.rm CUSTOM_CHECK_FILE_PATH if File.exist? CUSTOM_CHECK_FILE_PATH
+  FileUtils.rm CUSTOM_CHECK_FILE_PATH
 end
 
 def disconnect_database

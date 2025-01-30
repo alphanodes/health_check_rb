@@ -13,7 +13,7 @@ module HealthCheck
     def call(env)
       (response_type, middleware_checks, full_stack_checks) = parse_env env
       if response_type
-        if error_response = ip_blocked(env) || not_authenticated(env)
+        if (error_response = ip_blocked(env) || not_authenticated(env))
           return error_response
         end
 
