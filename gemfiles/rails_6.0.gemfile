@@ -1,0 +1,9 @@
+# Gemfile for health_test testing
+
+source 'https://rubygems.org'
+
+gem 'rails', '~> 6.0.0'
+gem 'rake', '>= 0.8.7'
+gem 'sqlite3', "~> 1.4"
+
+gemspec(path: '../')

@@ -3,12 +3,11 @@ require "bundler/gem_tasks"
 #require 'rubygems'
 require 'rake'
 
-#tests as gem
-task :test do
-  exec '/bin/bash', './test/test_with_railsapp'
-end
+require 'rspec/core/rake_task'
 
-task default: :test
+RSpec::Core::RakeTask.new(:spec)
+
+task :default => :spec
 
 begin
   gem 'rdoc'
