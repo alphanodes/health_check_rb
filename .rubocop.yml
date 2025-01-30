@@ -15,7 +15,8 @@ AllCops:
     - '**/Gemfile'
     - '**/*.gemfile'
   Exclude:
-    - 'spec/dummy'
+    - 'spec/dummy/**/*'
+    - 'vendor/**/*'
 
 Rails:
   Enabled: true
