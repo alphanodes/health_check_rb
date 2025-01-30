@@ -9,8 +9,8 @@ module HealthCheck
         raise "Wrong configuration. Missing 'redis' gem" unless defined?(::Redis)
 
         client.ping == 'PONG' ? '' : "Redis.ping returned #{res.inspect} instead of PONG"
-      rescue Exception => err
-        create_error 'redis', err.message
+      rescue StandardError => e
+        create_error 'redis', e.message
       ensure
         client.close if client.connected?
       end

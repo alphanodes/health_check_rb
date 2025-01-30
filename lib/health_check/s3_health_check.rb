@@ -13,12 +13,12 @@ module HealthCheck
           permissions = %i[R W D] if permissions.nil? # backward compatible
           permissions.each do |permision|
             send permision, bucket_name
-          rescue Exception => e
+          rescue StandardError => e
             raise "bucket:#{bucket_name}, permission:#{permision} - #{e.message}"
           end
         end
         ''
-      rescue Exception => e
+      rescue StandardError => e
         create_error 's3', e.message
       end
 

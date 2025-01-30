@@ -10,7 +10,7 @@ module HealthCheck
       connection.start
       connection.close
       ''
-    rescue Exception => e
+    rescue StandardError => e
       create_error 'rabbitmq', e.message
     end
   end

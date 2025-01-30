@@ -11,7 +11,7 @@ module HealthCheck
         res = r.ping
         res == 'PONG' ? '' : "Sidekiq.redis.ping returned #{res.inspect} instead of PONG"
       end
-    rescue Exception => e
+    rescue StandardError => e
       create_error 'sidekiq-redis', e.message
     end
   end

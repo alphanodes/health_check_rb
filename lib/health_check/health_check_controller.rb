@@ -21,7 +21,7 @@ module HealthCheck
       checks -= HealthCheck.middleware_checks if HealthCheck.installed_as_middleware
       begin
         errors = HealthCheck::Utils.process_checks checks
-      rescue Exception => e
+      rescue StandardError => e
         errors = e.message.blank? ? e.class.to_s : e.message.to_s
       end
       response.headers['Cache-Control'] = "must-revalidate, max-age=#{max_age}"

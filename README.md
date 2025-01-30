@@ -1,5 +1,7 @@
 # health_check gem
 
+[![Tests](https://github.com/AlphaNodes/health_check/workflows/Tests/badge.svg)](https://github.com/AlphaNodes/health_check/actions?query=workflow%3ATests) [![Run Linters](https://github.com/alphanodes/health_check/workflows/Run%20Linters/badge.svg)](https://github.com/alphanodes/health_check/actions?query=workflow%3A%22Run+Linters%22)
+
 Simple health check of Rails 5.x and 6.x apps for use with Pingdom, NewRelic, EngineYard etc.
 
 The basic goal is to quickly check that rails is up and running and that it has access to correctly configured resources (database, email gateway)
@@ -45,20 +47,20 @@ The health_check controller disables sessions for versions that eagerly load ses
 
 ## Checks
 
-* standard (default) - site, database and migrations checks are run plus email if ActionMailer is defined and it is not using the default configuration
-* all / full - all checks are run (can be overriden in config block)
-* cache - checks that a value can be written to the cache
-* custom - runs checks added via config.add_custom_check
-* database - checks that the current migration level can be read from the database
-* email - basic check of email - :test returns true, :sendmail checks file is present and executable, :smtp sends HELO command to server and checks response
-* migration - checks that the database migration level matches that in db/migrations
-* rabbitmq - RabbitMQ Health Check
-* redis / redis-if-present - checks Redis connectivity
-* resque-redis / resque-redis-if-present - checks Resque connectivity to Redis
-* s3 / s3-if-present - checks proper permissions to s3 buckets
-* sidekiq-redis / sidekiq-redis-if-present - checks Sidekiq connectivity to Redis
-* elasticsearch / elasticsearch-if-present - checks Elasticsearch connectivity
-* site - checks rails is running sufficiently to render text
+- standard (default) - site, database and migrations checks are run plus email if ActionMailer is defined and it is not using the default configuration
+- all / full - all checks are run (can be overriden in config block)
+- cache - checks that a value can be written to the cache
+- custom - runs checks added via config.add_custom_check
+- database - checks that the current migration level can be read from the database
+- email - basic check of email - :test returns true, :sendmail checks file is present and  executable, :smtp sends HELO command to server and checks response
+- migration - checks that the database migration level matches that in db/migrations
+- rabbitmq - RabbitMQ Health Check
+- redis / redis-if-present - checks Redis connectivity
+- resque-redis / resque-redis-if-present - checks Resque connectivity to Redis
+- s3 / s3-if-present - checks proper permissions to s3 buckets
+- sidekiq-redis / sidekiq-redis-if-present - checks Sidekiq connectivity to Redis
+- elasticsearch / elasticsearch-if-present - checks Elasticsearch connectivity
+- site - checks rails is running sufficiently to render text
 
 Some checks have a *-if-present form, which only runs the check if the corresponding library has been required.
 
@@ -190,8 +192,6 @@ HealthCheck.setup do |config|
   config.on_success do |checks|
     # flag that everything is well
   end
-
-
 end
 ```
 
@@ -236,11 +236,11 @@ If an error is encounted, the text "health_check failed: some error message/s" w
 
 See
 
-* Pingdom Website Monitoring - https://www.pingdom.com
-* NewRelic Availability Monitoring - http://newrelic.com/docs/features/availability-monitoring-faq
-* Engine Yard's guide - https://support.cloud.engineyard.com/entries/20996821-monitor-application-uptime (although the guide is based on fitter_happier plugin it will also work with this gem)
-* Nagios check_http (with -s success) - https://www.nagios-plugins.org/doc/man/check_http.html
-* Any other montoring service that can be set to check for the word success in the text returned from a url
+- Pingdom Website Monitoring - https://www.pingdom.com
+- NewRelic Availability Monitoring - http://newrelic.com/docs/features/availability-monitoring-faq
+- Engine Yard's guide - https://support.cloud.engineyard.com/entries/20996821-monitor-application-uptime (although the guide is based on fitter_happier plugin it will also work with this gem)
+- Nagios check_http (with -s success) - https://www.nagios-plugins.org/doc/man/check_http.html
+- Any other montoring service that can be set to check for the word success in the text returned from a url
 
 ### Requesting Json and XML responses
 
@@ -248,8 +248,9 @@ Health_check will respond with an encoded hash object if json or xml is requeste
 Either set the HTTP Accept header or append .json or .xml to the url.
 
 The hash contains two keys:
-* healthy - true if requested checks pass (boolean)
-* message - text message ("success" or error message)
+
+- healthy - true if requested checks pass (boolean)
+- message - text message ("success" or error message)
 
 The following commands
 
@@ -300,34 +301,25 @@ Likewise you will probably want to exclude health_check from monitoring systems 
 ## Caching
 
 Cache-control is set with
-* public if max_age is > 1 and basic_auth_username is not set (otherwise private)
-* no-cache
-* must-revalidate
-* max-age (default 1)
+- public if max_age is > 1 and basic_auth_username is not set (otherwise private)
+- no-cache
+- must-revalidate
+- max-age (default 1)
 
 Last-modified is set to the current time (rounded down to a multiple of max_age when max_age > 1)
 
 ## Known Issues
 
-* See https://github.com/ianheggie/health_check/issues
-* No inline documentation for methods
-* <b>rvm gemsets breaks the test</b> - specifically <tt>rvm use 1.9.3</tt> works but <tt>rvm gemset use ruby-1.9.3-p385@health_check --create</tt> triggers a "Could not find gem 'coffee-rails (~> 3.2.1) ruby' in the gems available on this machine." error in the last call to bundle (installing health_check as a gem via a path into the temp railsapp)
+- See https://github.com/ianheggie/health_check/issues
+- No inline documentation for methods
+- <b>rvm gemsets breaks the test</b> - specifically <tt>rvm use 1.9.3</tt> works but <tt>rvm gemset use ruby-1.9.3-p385@health_check --create</tt> triggers a "Could not find gem 'coffee-rails (~> 3.2.1) ruby' in the gems available on this machine." error in the last call to bundle (installing health_check as a gem via a path into the temp railsapp)
 
 ## Similar projects
 
-* fitter_happier plugin by atmos - plugin with similar goals, but not compatible with uptime, and does not check email gateway
-* HealthBit - inspired by this gem but with a fresh start as a simpler rack only application, no travis CI tests (yet?) but looks interesting.
+- fitter_happier plugin by atmos - plugin with similar goals, but not compatible with uptime, and does not check email gateway
+- HealthBit - inspired by this gem but with a fresh start as a simpler rack only application, no travis CI tests (yet?) but looks interesting.
 
-## Testing
-
-### Automated testing and other checks
-
-* [<img src="https://badge.fury.io/rb/health_check.svg" alt="Gem Version" />](http://badge.fury.io/rb/health_check) - Latest Gem
-* [<img src="https://travis-ci.org/ianheggie/health_check.svg">](https://travis-ci.org/ianheggie/health_check)  - Travis CI
-* [<img src="https://codeclimate.com/github/ianheggie/health_check.svg" />](https://codeclimate.com/github/ianheggie/health_check) - Code quality
-* [<img src="https://gemnasium.com/ianheggie/health_check.svg">](https://gemnasium.com/ianheggie/health_check) - Gem dependencies
-
-### Manual testing
+## Manual testing
 
 The instructions have been changed to using a vagrant virtual box for consistent results.
 
@@ -393,10 +385,10 @@ Thanks go to the various people who have given feedback and suggestions via the 
 ### Contributing
 
 Use gem versions for stable releases, or github branch / commits for development versions:
-* for Rails 5.x and 6.x use feature branched off master [master](https://github.com/ianheggie/health_check/tree/master) for development;
-* for Rails 4.x use feature branches off the [rails4](https://github.com/ianheggie/health_check/tree/rails4) stable branch for development;
-* for Rails 3.x use feature branches off the [rails3](https://github.com/ianheggie/health_check/tree/rails3) stable branch for development;
-* for Rails 2.3 use feature branches off the [rails2.3](https://github.com/ianheggie/health_check/tree/rails2.3) stable branch for development;
+- for Rails 5.x and 6.x use feature branched off master [master](https://github.com/ianheggie/health_check/tree/master) for development;
+- for Rails 4.x use feature branches off the [rails4](https://github.com/ianheggie/health_check/tree/rails4) stable branch for development;
+- for Rails 3.x use feature branches off the [rails3](https://github.com/ianheggie/health_check/tree/rails3) stable branch for development;
+- for Rails 2.3 use feature branches off the [rails2.3](https://github.com/ianheggie/health_check/tree/rails2.3) stable branch for development;
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)

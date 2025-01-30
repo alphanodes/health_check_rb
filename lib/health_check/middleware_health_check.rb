@@ -90,7 +90,7 @@ module HealthCheck
 
     class Request < Rack::Auth::AbstractRequest
       def basic?
-        'basic' == scheme
+        scheme == 'basic'
       end
 
       def credentials

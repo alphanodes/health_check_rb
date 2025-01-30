@@ -9,7 +9,7 @@ module HealthCheck
 
       res = ::Elasticsearch::Client.new.ping
       res == true ? '' : "Elasticsearch returned #{res.inspect} instead of true"
-    rescue Exception => e
+    rescue StandardError => e
       create_error 'elasticsearch', e.message
     end
   end

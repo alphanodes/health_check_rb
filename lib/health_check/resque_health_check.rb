@@ -9,7 +9,7 @@ module HealthCheck
 
       res = ::Resque.redis.ping
       res == 'PONG' ? '' : "Resque.redis.ping returned #{res.inspect} instead of PONG"
-    rescue Exception => e
+    rescue StandardError => e
       create_error 'resque-redis', e.message
     end
   end
