@@ -1,20 +1,10 @@
 # health_check gem
 
-[![Tests](https://github.com/AlphaNodes/health_check/workflows/Tests/badge.svg)](https://github.com/AlphaNodes/health_check/actions?query=workflow%3ATests) [![Run Linters](https://github.com/alphanodes/health_check/workflows/Run%20Linters/badge.svg)](https://github.com/alphanodes/health_check/actions?query=workflow%3A%22Run+Linters%22)
+[![Tests](https://github.com/AlphaNodes/health_check/workflows/Tests/badge.svg)](https://github.com/alphanodes/health_check/actions/workflows/tests.yml) [![Run Linters](https://github.com/alphanodes/health_check/workflows/Run%20Linters/badge.svg)](https://github.com/alphanodes/health_check/actions/workflows/linters.yml)
 
-Simple health check of Rails 5.x and 6.x apps for use with Pingdom, NewRelic, EngineYard etc.
+Simple health check of Rails 7.x and 8.x apps for use with Pingdom, NewRelic, EngineYard etc.
 
 The basic goal is to quickly check that rails is up and running and that it has access to correctly configured resources (database, email gateway)
-
-Check the latest README [master](https://github.com/ianheggie/health_check/tree/master) for other versions
-
-Use gem versions for stable releases:
-- ~> 3.x for Rails 5.x and 6.x (etc until there is a proven need to split off another branch),
-- ~> 2.x for Rails 4.x,
-- ~> 1.7 for Rails 3.x,
-- ~> 1.6.3 for Rails 2.3
-
-Note: it is best to pin to a specific commit if using a development branch as sometimes tests break.
 
 health_check provides various monitoring URIs, for example:
 
