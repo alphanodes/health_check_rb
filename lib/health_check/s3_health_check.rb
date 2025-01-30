@@ -1,23 +1,20 @@
+# frozen_string_literal: true
+
 module HealthCheck
   class S3HealthCheck
     extend BaseHealthCheck
 
     class << self
       def check
-        unless defined?(::Aws)
-          raise "Wrong configuration. Missing 'aws-sdk' or 'aws-sdk-s3' gem"
-        end
+        raise "Wrong configuration. Missing 'aws-sdk' or 'aws-sdk-s3' gem" unless defined?(::Aws)
         return create_error 's3', 'Could not connect to aws' if aws_s3_client.nil?
+
         HealthCheck.buckets.each do |bucket_name, permissions|
-          if permissions.nil? # backward compatible
-            permissions = [:R, :W, :D]
-          end
+          permissions = %i[R W D] if permissions.nil? # backward compatible
           permissions.each do |permision|
-            begin
-              send(permision, bucket_name)
-            rescue Exception => e
-              raise "bucket:#{bucket_name}, permission:#{permision} - #{e.message}"
-            end
+            send permision, bucket_name
+          rescue Exception => e
+            raise "bucket:#{bucket_name}, permission:#{permision} - #{e.message}"
           end
         end
         ''
@@ -32,7 +29,7 @@ module HealthCheck
       # instance profile and simply set the region in your environment.
       def configure_client
         ::Aws.config[:s3] = { force_path_style: true }
-        ::Aws.config[:region] ||= ENV['AWS_REGION'] || ENV['DEFAULT_AWS_REGION']
+        ::Aws.config[:region] ||= ENV['AWS_REGION'] || ENV.fetch('DEFAULT_AWS_REGION', nil)
 
         ::Aws::S3::Client.new
       end
@@ -42,7 +39,7 @@ module HealthCheck
       end
 
       def R(bucket)
-        aws_s3_client.list_objects(bucket: bucket)
+        aws_s3_client.list_objects bucket: bucket
       end
 
       def W(bucket)

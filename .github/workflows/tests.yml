@@ -1,0 +1,37 @@
+name: Tests
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - { ruby: '3.1', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'true' }
+          - { ruby: '3.1', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'false' }
+          - { ruby: '3.2', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'true' }
+          - { ruby: '3.2', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'false' }
+          - { ruby: '3.2', gemfile: './gemfiles/rails_8.0.gemfile', middleware: 'true' }
+          - { ruby: '3.2', gemfile: './gemfiles/rails_8.0.gemfile', middleware: 'false' }
+          - { ruby: '3.3', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'true' }
+          - { ruby: '3.3', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'false' }
+          - { ruby: '3.3', gemfile: './gemfiles/rails_8.0.gemfile', middleware: 'true' }
+          - { ruby: '3.3', gemfile: './gemfiles/rails_8.0.gemfile', middleware: 'false' }
+
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+      MIDDLEWARE: ${{ matrix.middleware }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Run tests
+        run: bundle exec rake

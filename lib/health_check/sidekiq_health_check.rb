@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 module HealthCheck
   class SidekiqHealthCheck
     extend BaseHealthCheck
 
     def self.check
-      unless defined?(::Sidekiq)
-        raise "Wrong configuration. Missing 'sidekiq' gem"
-      end
+      raise "Wrong configuration. Missing 'sidekiq' gem" unless defined?(::Sidekiq)
+
       ::Sidekiq.redis do |r|
         res = r.ping
         res == 'PONG' ? '' : "Sidekiq.redis.ping returned #{res.inspect} instead of PONG"

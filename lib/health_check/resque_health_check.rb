@@ -1,15 +1,16 @@
-module HealthCheck
-   class ResqueHealthCheck
-     extend BaseHealthCheck
+# frozen_string_literal: true
 
-     def self.check
-       unless defined?(::Resque)
-         raise "Wrong configuration. Missing 'resque' gem"
-       end
+module HealthCheck
+  class ResqueHealthCheck
+    extend BaseHealthCheck
+
+    def self.check
+      raise "Wrong configuration. Missing 'resque' gem" unless defined?(::Resque)
+
       res = ::Resque.redis.ping
       res == 'PONG' ? '' : "Resque.redis.ping returned #{res.inspect} instead of PONG"
-     rescue Exception => e
-       create_error 'resque-redis', e.message
-     end
-   end
+    rescue Exception => e
+      create_error 'resque-redis', e.message
+    end
+  end
 end

@@ -1,4 +1,6 @@
-#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# !/usr/bin/env ruby
 
 require 'socket'
 require 'openssl'
@@ -6,7 +8,7 @@ require 'openssl'
 class FakeSmtpServer
   def initialize(port)
     @port = port
-    @socket = TCPServer.new(@port)
+    @socket = TCPServer.new @port
     @client = @orig_client = nil
   end
 
@@ -20,34 +22,30 @@ class FakeSmtpServer
     cmd = receive
 
     while cmd !~ /^QUIT\r/
-      if cmd =~ /^HELO(.*)\r/
+      if /^HELO(.*)\r/.match?(cmd)
         if ENV['FAIL_SMTP'] == 'HELO'
           send '550 Access Denied – Invalid HELO name'
         else
           send '250-Welcome to a dummy smtp server'
-          unless ENV['SMTP_STARTTLS'] == 'DISABLED'
-            send '250-STARTTLS'
-          end
+          send :'250-STARTTLS' unless ENV['SMTP_STARTTLS'] == 'DISABLED'
           send '250-AUTH PLAIN LOGIN'
           send '250 Ok'
         end
-      elsif cmd =~ /^AUTH(.*)\r/
+      elsif /^AUTH(.*)\r/.match?(cmd)
         if ENV['FAIL_SMTP'] == 'AUTH'
           send '535 5.7.8 Authentication credentials invalid'
         else
           send '235 2.7.0 Authentication successful'
         end
-      elsif cmd =~ /^STARTTLS\r/
-        if ENV['SMTP_STARTTLS'] == 'DISABLED'
-          send '502 STARTTLS is disabled!'
-        end
+      elsif /^STARTTLS\r/.match?(cmd)
+        send '502 STARTTLS is disabled!' if ENV['SMTP_STARTTLS'] == 'DISABLED'
         send '220 Ready to start TLS'
         if ENV['FAIL_SMTP'] == 'STARTTLS'
           cmd = receive
           return close
         end
         @orig_client = @client
-        @client = tlsconnect(@client)
+        @client = tlsconnect @client
       else
         send '502 I am so dumb I only understand HELO, AUTH, STARTTLS and QUIT which always return a success status'
       end
@@ -71,8 +69,6 @@ class FakeSmtpServer
     @orig_client.close unless @orig_client.nil?
   end
 
-
-
   def send(line)
     @client.puts line
     puts "-> #{line}"
@@ -85,7 +81,7 @@ class FakeSmtpServer
   end
 
   def ssl_socket(client, context)
-    OpenSSL::SSL::SSLSocket.new(client, context)
+    OpenSSL::SSL::SSLSocket.new client, context
   end
 
   def ssl_context
@@ -102,7 +98,7 @@ class FakeSmtpServer
 
   # Pass socket from TCPServer.new accept
   def tlsconnect(client)
-    ssl_client = ssl_socket(client, ssl_context)
+    ssl_client = ssl_socket client, ssl_context
     puts '=> TLS connection started'
     ssl_client.accept
     puts '=> TLS connection established'
@@ -111,8 +107,8 @@ class FakeSmtpServer
   end
 
   def generate_certificate
-    key = OpenSSL::PKey::RSA.new(2048)
-    name = OpenSSL::X509::Name.parse('CN=localhost')
+    key = OpenSSL::PKey::RSA.new 2048
+    name = OpenSSL::X509::Name.parse 'CN=localhost'
 
     cert = OpenSSL::X509::Certificate.new
     cert.version = 2
@@ -130,9 +126,8 @@ class FakeSmtpServer
     cert.add_extension extension_factory.create_extension('subjectKeyIdentifier', 'hash')
 
     cert.issuer = name
-    cert.sign key, OpenSSL::Digest::SHA256.new
+    cert.sign key, OpenSSL::Digest.new('SHA256')
 
     [key, cert]
   end
 end
-

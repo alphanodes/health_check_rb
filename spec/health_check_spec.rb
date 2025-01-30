@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe HealthCheck, type: :request do
@@ -59,10 +61,10 @@ RSpec.describe HealthCheck, type: :request do
     before { reconnect_database }
     after do
       Dir.glob('spec/dummy/db/migrate/*').each do |f|
-        FileUtils.rm(f)
+        FileUtils.rm f
       end
-      FileUtils.rm('spec/dummy/db/schema.rb') if File.exist?('spec/dummy/db/schema.rb')
-      FileUtils.cd(FakeApp.config.root) do
+      FileUtils.rm 'spec/dummy/db/schema.rb' if File.exist? 'spec/dummy/db/schema.rb'
+      FileUtils.cd FakeApp.config.root do
         ActiveRecord::Tasks::DatabaseTasks.drop_current
       end
     end
@@ -73,16 +75,16 @@ RSpec.describe HealthCheck, type: :request do
     end
 
     it 'fails with pending migration files' do
-      FileUtils.cp('spec/fixtures/migrate/9_create_countries.rb', 'spec/dummy/db/migrate/9_create_countries.rb')
-      FileUtils.cd(FakeApp.config.root) do
+      FileUtils.cp 'spec/fixtures/migrate/9_create_countries.rb', 'spec/dummy/db/migrate/9_create_countries.rb'
+      FileUtils.cd FakeApp.config.root do
         get '/custom_route_prefix/migration'
       end
       expect(response.status).to eq(550)
     end
 
     it 'works with applied migration files' do
-      FileUtils.cp('spec/fixtures/migrate/9_create_countries.rb', 'spec/dummy/db/migrate/9_create_countries.rb')
-      FileUtils.cd(FakeApp.config.root) do
+      FileUtils.cp 'spec/fixtures/migrate/9_create_countries.rb', 'spec/dummy/db/migrate/9_create_countries.rb'
+      FileUtils.cd FakeApp.config.root do
         db_migrate
         get '/custom_route_prefix/migration'
       end
@@ -93,10 +95,10 @@ RSpec.describe HealthCheck, type: :request do
   describe '/custom_route_prefix/database' do
     after do
       Dir.glob('spec/dummy/db/migrate/*').each do |f|
-        FileUtils.rm(f)
+        FileUtils.rm f
       end
-      FileUtils.rm('spec/dummy/db/schema.rb') if File.exist?('spec/dummy/db/schema.rb')
-      FileUtils.cd(FakeApp.config.root) do
+      FileUtils.rm 'spec/dummy/db/schema.rb' if File.exist? 'spec/dummy/db/schema.rb'
+      FileUtils.cd FakeApp.config.root do
         ActiveRecord::Tasks::DatabaseTasks.drop_current
       end
     end
@@ -107,8 +109,8 @@ RSpec.describe HealthCheck, type: :request do
     end
 
     it 'works with valid database' do
-      FileUtils.cp('spec/fixtures/migrate/9_create_countries.rb', 'spec/dummy/db/migrate/9_create_countries.rb')
-      FileUtils.cd(FakeApp.config.root) do
+      FileUtils.cp 'spec/fixtures/migrate/9_create_countries.rb', 'spec/dummy/db/migrate/9_create_countries.rb'
+      FileUtils.cd FakeApp.config.root do
         db_migrate
         get '/custom_route_prefix/database'
       end
@@ -267,17 +269,20 @@ RSpec.describe HealthCheck, type: :request do
     end
 
     it 'works with valid credentials' do
-      get '/custom_route_prefix/site', headers: { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('username', 'password') }
+      get '/custom_route_prefix/site',
+          headers: { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('username', 'password') }
       expect(response).to be_ok
     end
 
     it 'fails with wrong password' do
-      get '/custom_route_prefix/site', headers: { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('username', 'wrong_password') }
+      get '/custom_route_prefix/site',
+          headers: { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('username', 'wrong_password') }
       expect(response.status).to eq(401)
     end
 
     it 'fails with wrong username' do
-      get '/custom_route_prefix/site', headers: { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('wrong_username', 'password') }
+      get '/custom_route_prefix/site',
+          headers: { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('wrong_username', 'password') }
       expect(response.status).to eq(401)
     end
 
