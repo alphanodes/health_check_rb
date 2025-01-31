@@ -8,6 +8,7 @@ Bundler.require
 
 FakeApp = Class.new Rails::Application
 ENV['RAILS_ENV'] ||= 'test'
+FakeApp.config.eager_load = false
 FakeApp.config.session_store :cookie_store, key: '_myapp_session'
 FakeApp.config.root = File.dirname __FILE__
 FakeApp.config.action_mailer.delivery_method = :smtp

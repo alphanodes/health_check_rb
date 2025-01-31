@@ -26,19 +26,11 @@ ensure
 end
 
 def disconnect_database
-  if Gem::Version.new(Rails.version) >= Gem::Version.new('7.1.0')
-    ActiveRecord::Tasks::DatabaseTasks.migration_connection.disconnect!
-  else
-    ActiveRecord::Base.connection.disconnect!
-  end
+  ActiveRecord::Tasks::DatabaseTasks.migration_connection.disconnect!
 end
 
 def reconnect_database
-  if Gem::Version.new(Rails.version) >= Gem::Version.new('7.1.0')
-    ActiveRecord::Tasks::DatabaseTasks.migration_connection.reconnect!
-  else
-    ActiveRecord::Base.establish_connection
-  end
+  ActiveRecord::Tasks::DatabaseTasks.migration_connection.reconnect!
 end
 
 def db_migrate
