@@ -24,6 +24,12 @@ Rails:
 Rails/ApplicationController:
   Enabled: false
 
+RSpec/DescribedClass:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 10
+
 RSpec/ExampleLength:
   Max: 10
 

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe HealthCheck, type: :request do
-  context '/custom_route_prefix' do
+  context 'with /custom_route_prefix' do
     it 'works with smtp server and valid custom_check' do
       enable_custom_check do
         start_smtp_server do
@@ -30,7 +30,7 @@ RSpec.describe HealthCheck, type: :request do
     end
   end
 
-  context '/custom_route_prefix/all' do
+  context 'with /custom_route_prefix/all' do
     it 'works with smtp server and valid custom_check' do
       enable_custom_check do
         start_smtp_server do
@@ -57,8 +57,9 @@ RSpec.describe HealthCheck, type: :request do
     end
   end
 
-  context '/custom_route_prefix/migration' do
+  context 'with /custom_route_prefix/migration' do
     before { reconnect_database }
+
     after do
       Dir.glob('spec/dummy/db/migrate/*').each do |f|
         FileUtils.rm f
@@ -169,7 +170,7 @@ RSpec.describe HealthCheck, type: :request do
       expect(response.body).to include 'health_check failed'
     end
 
-    context 'specified format' do
+    context 'with specified format' do
       it 'returns plain text if client requests html format' do
         enable_custom_check do
           get '/custom_route_prefix/custom.html'
@@ -235,7 +236,7 @@ RSpec.describe HealthCheck, type: :request do
     end
   end
 
-  context 'whitelisted ip' do
+  context 'with whitelisted ip' do
     after { HealthCheck.origin_ip_whitelist.clear }
 
     it 'works with access from valid ip address' do
@@ -257,7 +258,7 @@ RSpec.describe HealthCheck, type: :request do
     end
   end
 
-  context 'basic auth' do
+  context 'with basic auth' do
     before do
       HealthCheck.basic_auth_username = 'username'
       HealthCheck.basic_auth_password = 'password'

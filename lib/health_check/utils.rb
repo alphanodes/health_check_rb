@@ -27,7 +27,7 @@ module HealthCheck
           when 'and', 'site'
           # do nothing
           when 'database'
-            HealthCheck::Utils.get_database_version
+            HealthCheck::Utils.database_version
           when 'email'
             errors << HealthCheck::Utils.check_email
           when 'emailconf'
@@ -41,8 +41,8 @@ module HealthCheck
                 errors << e.message
               end
             else
-              database_version  = HealthCheck::Utils.get_database_version
-              migration_version = HealthCheck::Utils.get_migration_version
+              database_version  = HealthCheck::Utils.database_version
+              migration_version = HealthCheck::Utils.migration_version
               if database_version.to_i != migration_version.to_i
                 errors << "Current database version (#{database_version}) does not match latest migration (#{migration_version}). "
               end
@@ -111,11 +111,11 @@ module HealthCheck
         defined?(ActionMailer::Base) && (ActionMailer::Base.delivery_method != :smtp || HealthCheck::Utils.default_smtp_settings != ActionMailer::Base.smtp_settings)
       end
 
-      def get_database_version
+      def database_version
         ActiveRecord::Migrator.current_version if defined?(ActiveRecord)
       end
 
-      def get_migration_version(dir = db_migrate_path)
+      def migration_version(dir = db_migrate_path)
         latest_migration = nil
         Dir[File.join(dir, '[0-9]*_*.rb')].each do |f|
           l = begin
@@ -163,7 +163,7 @@ module HealthCheck
               status = smtp.helo(settings[:domain]).status
             end
           end
-        rescue Exception => e
+        rescue StandardError => e
           status = e.to_s
         end
         /^250/.match?(status) ? '' : "SMTP: #{status || 'unexpected error'}. "
