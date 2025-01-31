@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split $/
-  gem.extra_rdoc_files = ['README.rdoc']
+  gem.extra_rdoc_files = ['README.md']
   gem.require_paths = ['lib']
   gem.required_ruby_version = '>= 3.1'
   gem.add_dependency 'railties', ['>= 5.0']
