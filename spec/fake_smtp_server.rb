@@ -65,8 +65,8 @@ class FakeSmtpServer
   private
 
   def close
-    @client.close unless @client.nil?
-    @orig_client.close unless @orig_client.nil?
+    @client&.close
+    @orig_client&.close
   end
 
   def send(line)
@@ -85,7 +85,7 @@ class FakeSmtpServer
   end
 
   def ssl_context
-    @_ssl_context ||= begin
+    @ssl_context ||= begin
       key, cert = generate_certificate
 
       context = OpenSSL::SSL::SSLContext.new

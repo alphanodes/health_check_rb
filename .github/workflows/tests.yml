@@ -24,6 +24,7 @@ jobs:
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
       MIDDLEWARE: ${{ matrix.middleware }}
+      RAILS_ENV: test
     steps:
       - uses: actions/checkout@v4
 

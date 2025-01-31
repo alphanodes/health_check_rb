@@ -21,6 +21,9 @@ AllCops:
 Rails:
   Enabled: true
 
+Rails/ApplicationController:
+  Enabled: false
+
 RSpec/ExampleLength:
   Max: 10
 
