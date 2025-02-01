@@ -10,22 +10,40 @@ jobs:
     strategy:
       matrix:
         include:
-          - { ruby: '3.1', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'true' }
-          - { ruby: '3.1', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'false' }
-          - { ruby: '3.2', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'true' }
-          - { ruby: '3.2', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'false' }
-          - { ruby: '3.2', gemfile: './gemfiles/rails_8.0.gemfile', middleware: 'true' }
-          - { ruby: '3.2', gemfile: './gemfiles/rails_8.0.gemfile', middleware: 'false' }
-          - { ruby: '3.3', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'true' }
-          - { ruby: '3.3', gemfile: './gemfiles/rails_7.2.gemfile', middleware: 'false' }
-          - { ruby: '3.3', gemfile: './gemfiles/rails_8.0.gemfile', middleware: 'true' }
-          - { ruby: '3.3', gemfile: './gemfiles/rails_8.0.gemfile', middleware: 'false' }
+          - { ruby: '3.1', rails: '7.2.0', middleware: 'true' }
+          - { ruby: '3.1', rails: '7.2.0', middleware: 'false' }
+          - { ruby: '3.2', rails: '7.2.0', middleware: 'true' }
+          - { ruby: '3.2', rails: '7.2.0', middleware: 'false' }
+          - { ruby: '3.2', rails: '8.0.0', middleware: 'true' }
+          - { ruby: '3.2', rails: '8.0.0', middleware: 'false' }
+          - { ruby: '3.3', rails: '7.2.0', middleware: 'true' }
+          - { ruby: '3.3', rails: '7.2.0', middleware: 'false' }
+          - { ruby: '3.3', rails: '8.0.0', middleware: 'true' }
+          - { ruby: '3.3', rails: '8.0.0', middleware: 'false' }
 
     env:
-      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
       MIDDLEWARE: ${{ matrix.middleware }}
+      RAILS_VERSION: ${{ matrix.rails }}
       RAILS_ENV: test
+
     steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: mocktools/go-smtp-mock
+          ref: master
+          path: go-smtp-mock
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+          check-latest: true
+
+      - name: Set up smtp-mock go
+        working-directory: go-smtp-mock
+        run: |
+          go get github.com/mocktools/go-smtp-mock/v2
+          go install github.com/mocktools/go-smtp-mock/v2
+
       - uses: actions/checkout@v4
 
       - name: Set up Ruby
@@ -33,6 +51,10 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+
+      - name: Setup smtp_mock for ruby
+        run: |
+          bundle exec smtp_mock -i /usr/local/bin
 
       - name: Run tests
         run: bundle exec rake

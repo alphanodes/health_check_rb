@@ -6,7 +6,7 @@ RSpec.describe HealthCheck, type: :request do
   context 'with /custom_route_prefix' do
     it 'works with smtp server and valid custom_check' do
       enable_custom_check do
-        start_smtp_server do
+        mock_smtp_server do
           get '/custom_route_prefix'
           expect(response).to be_ok
         end
@@ -22,7 +22,7 @@ RSpec.describe HealthCheck, type: :request do
     end
 
     it 'fails with smtp server and invalid custom_check' do
-      start_smtp_server do
+      mock_smtp_server do
         get '/custom_route_prefix'
         expect(response.status).to eq(550)
         expect(response.body).to include 'health_check failed'
@@ -33,7 +33,7 @@ RSpec.describe HealthCheck, type: :request do
   context 'with /custom_route_prefix/all' do
     it 'works with smtp server and valid custom_check' do
       enable_custom_check do
-        start_smtp_server do
+        mock_smtp_server do
           get '/custom_route_prefix/all'
           expect(response).to be_ok
         end
@@ -49,7 +49,7 @@ RSpec.describe HealthCheck, type: :request do
     end
 
     it 'fails with smtp server and invalid custom_check' do
-      start_smtp_server do
+      mock_smtp_server do
         get '/custom_route_prefix/all'
         expect(response.status).to eq(550)
         expect(response.body).to include 'health_check failed'
@@ -64,7 +64,7 @@ RSpec.describe HealthCheck, type: :request do
       Dir.glob('spec/dummy/db/migrate/*').each do |f|
         FileUtils.rm f
       end
-      FileUtils.rm 'spec/dummy/db/schema.rb'
+      FileUtils.rm 'spec/dummy/db/schema.rb' if File.exist? 'spec/dummy/db/schema.rb'
       FileUtils.cd FakeApp.config.root do
         ActiveRecord::Tasks::DatabaseTasks.drop_current
       end
@@ -98,7 +98,7 @@ RSpec.describe HealthCheck, type: :request do
       Dir.glob('spec/dummy/db/migrate/*').each do |f|
         FileUtils.rm f
       end
-      FileUtils.rm 'spec/dummy/db/schema.rb'
+      FileUtils.rm 'spec/dummy/db/schema.rb' if File.exist? 'spec/dummy/db/schema.rb'
       FileUtils.cd FakeApp.config.root do
         ActiveRecord::Tasks::DatabaseTasks.drop_current
       end
@@ -129,7 +129,7 @@ RSpec.describe HealthCheck, type: :request do
 
   describe '/custom_route_prefix/email' do
     it 'works with smtp server' do
-      start_smtp_server do
+      mock_smtp_server do
         get '/custom_route_prefix/email'
         expect(response).to be_ok
       end

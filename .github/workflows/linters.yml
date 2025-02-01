@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BUNDLE_GEMFILE: './gemfiles/rails_7.2.gemfile'
+      RAILS_ENV: test
+
     steps:
     - uses: actions/checkout@v4
 

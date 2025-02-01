@@ -2,27 +2,25 @@
 
 require_relative 'dummy/fake_app'
 require 'rspec/rails'
-require 'fake_smtp_server'
+require 'smtp_mock/test_framework/rspec'
 
-def start_smtp_server(&)
-  th = Thread.start do
-    server = FakeSmtpServer.new 3555
-    server.start
-    server.finish
+RSpec.configure do |config|
+  config.include SmtpMock::TestFramework::RSpec::Helper
+end
+
+# see https://github.com/mocktools/ruby-smtp-mock
+def mock_smtp_server(&)
+  smtp_mock_server port: 3555 do
+    sleep 1
+    yield
   end
-  sleep 1
-  yield
-  socket = TCPSocket.open 'localhost', 3555
-  socket.write 'QUIT'
-  socket.close
-  th.join
 end
 
 def enable_custom_check(&)
   File.write CUSTOM_CHECK_FILE_PATH, 'hello'
   yield
 ensure
-  FileUtils.rm CUSTOM_CHECK_FILE_PATH
+  FileUtils.rm CUSTOM_CHECK_FILE_PATH if File.exist? CUSTOM_CHECK_FILE_PATH
 end
 
 def disconnect_database

@@ -21,7 +21,7 @@ module HealthCheck
     class << self
       # process an array containing a list of checks
       def process_checks(checks, called_from_middleware = false)
-        errors = ''
+        errors = +''
         checks.each do |check|
           case check
           when 'and', 'site'

@@ -30,6 +30,12 @@ RSpec/DescribedClass:
 RSpec/MultipleExpectations:
   Max: 10
 
+Lint/NonAtomicFileOperation:
+  Enabled: true
+  Exclude:
+    - 'spec/spec_helper.rb'
+    - 'spec/*_spec.rb'
+
 RSpec/ExampleLength:
   Max: 10
 
