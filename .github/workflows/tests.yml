@@ -32,7 +32,7 @@ jobs:
 
       - name: Setup smtp_mock for ruby
         run: |
-          bundle exec smtp_mock -i /usr/bin
+          bundle exec smtp_mock -i ~
 
       - name: Test smtp_mock for ruby
         run: |
