@@ -16,5 +16,5 @@ group :development, :test do
   gem 'rubocop-rspec', require: false
 
   gem 'rails', "~> #{ENV['RAILS_VERSION'] || '7.2.0' }"
-  # gem 'sqlite3', '~> 1.4'
+  gem 'sqlite3', '~> 1.4'
 end
