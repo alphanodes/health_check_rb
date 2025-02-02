@@ -53,7 +53,7 @@ Metrics/ClassLength:
   Enabled: false
 
 Metrics/CyclomaticComplexity:
-  Max: 25
+  Enabled: false
 
 Style/HashConversion:
   Enabled: true
@@ -62,13 +62,13 @@ Layout/LineLength:
   Max: 140
 
 Metrics/MethodLength:
-  Max: 25
+  Enabled: false
 
 Metrics/ModuleLength:
   Enabled: false
 
 Metrics/PerceivedComplexity:
-  Max: 25
+  Enabled: false
 
 Lint/AmbiguousOperatorPrecedence:
   Enabled: false

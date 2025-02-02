@@ -20,7 +20,7 @@ module HealthCheck
 
     class << self
       # process an array containing a list of checks
-      def process_checks(checks, called_from_middleware = false)
+      def process_checks(checks, called_from_middleware: false)
         errors = +''
         checks.each do |check|
           case check
@@ -72,17 +72,17 @@ module HealthCheck
           when 'rabbitmq'
             errors << HealthCheck::RabbitMQHealthCheck.check
           when 'standard'
-            errors << HealthCheck::Utils.process_checks(HealthCheck.standard_checks, called_from_middleware)
+            errors << HealthCheck::Utils.process_checks(HealthCheck.standard_checks, called_from_middleware:)
           when 'middleware'
             errors << 'Health check not called from middleware - probably not installed as middleware.' unless called_from_middleware
           when 'custom'
-            HealthCheck.custom_checks.each do |name, list|
+            HealthCheck.custom_checks.each_value do |list|
               list.each do |custom_check|
                 errors << custom_check.call(self)
               end
             end
           when 'all', 'full'
-            errors << HealthCheck::Utils.process_checks(HealthCheck.full_checks, called_from_middleware)
+            errors << HealthCheck::Utils.process_checks(HealthCheck.full_checks, called_from_middleware:)
           else
             return 'invalid argument to health_test.' unless HealthCheck.custom_checks.include? check
 
@@ -108,7 +108,8 @@ module HealthCheck
       end
 
       def mailer_configured?
-        defined?(ActionMailer::Base) && (ActionMailer::Base.delivery_method != :smtp || HealthCheck::Utils.default_smtp_settings != ActionMailer::Base.smtp_settings)
+        defined?(ActionMailer::Base) &&
+          (ActionMailer::Base.delivery_method != :smtp || HealthCheck::Utils.default_smtp_settings != ActionMailer::Base.smtp_settings)
       end
 
       def database_version
@@ -144,7 +145,6 @@ module HealthCheck
       end
 
       def check_smtp(settings, timeout)
-        status = ''
         begin
           if @skip_external_checks
             status = '250'

@@ -20,7 +20,7 @@ module HealthCheck
           {
             url: HealthCheck.redis_url,
             password: HealthCheck.redis_password
-          }.reject { |k, v| v.nil? }
+          }.compact
         )
       end
     end

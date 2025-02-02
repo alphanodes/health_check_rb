@@ -47,7 +47,7 @@ module HealthCheck
 
         aws_s3_client.put_object(bucket: bucket,
                                  key: "healthcheck_#{app_name}",
-                                 body: Time.new.to_s)
+                                 body: Time.zone.now.to_s)
       end
 
       def try_delete_object(bucket)

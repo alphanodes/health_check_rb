@@ -21,7 +21,8 @@ module HealthCheck
         errors = ''
         begin
           # Process the checks to be run from middleware
-          errors = HealthCheck::Utils.process_checks middleware_checks, true
+          errors = HealthCheck::Utils.process_checks middleware_checks,
+                                                     called_from_middleware: true
           # Process remaining checks through the full stack if there are any
           return @app.call env unless full_stack_checks.empty?
         rescue StandardError => e
