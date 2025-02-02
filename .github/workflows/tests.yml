@@ -17,11 +17,6 @@ jobs:
             rails: '8.0.0'
       fail-fast: false
 
-    env:
-      MIDDLEWARE: ${{ matrix.middleware }}
-      RAILS_VERSION: ${{ matrix.rails }}
-      RAILS_ENV: development
-
     steps:
       - uses: actions/checkout@v4
 
@@ -40,4 +35,8 @@ jobs:
           bundle exec smtp_mock --version
 
       - name: Run tests
+        env:
+          MIDDLEWARE: ${{ matrix.middleware }}
+          RAILS_VERSION: ${{ matrix.rails }}
+          RAILS_ENV: test
         run: bundle exec rake
