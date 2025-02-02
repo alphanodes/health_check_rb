@@ -23,23 +23,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          repository: mocktools/go-smtp-mock
-          ref: master
-          path: go-smtp-mock
-
-      - uses: actions/setup-go@v5
-        with:
-          go-version: '1.23'
-          check-latest: true
-
-      - name: Set up smtp-mock go
-        working-directory: go-smtp-mock
-        run: |
-          go get github.com/mocktools/go-smtp-mock/v2
-          go install github.com/mocktools/go-smtp-mock/v2
-
-      - uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -49,7 +32,7 @@ jobs:
 
       - name: Setup smtp_mock for ruby
         run: |
-          bundle exec smtp_mock -i /usr/local/bin
+          bundle exec smtp_mock -i /usr/bin
 
       - name: Test smtp_mock for ruby
         run: |
