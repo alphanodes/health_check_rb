@@ -195,8 +195,7 @@ health_check_routes
 
 ### Installing As Middleware
 
-Install health_check as middleware if you want to sometimes ignore exceptions from later parts of the Rails middleware stack,
-eg DB connection errors from QueryCache. The "middleware" check will fail if you have not installed health_check as middleware.
+Install health_check as middleware if you want to sometimes ignore exceptions from later parts of the Rails middleware stack, eg DB connection errors from QueryCache. The "middleware" check will fail if you have not installed health_check as middleware.
 
 To install health_check as middleware add the following line to the config/application.rb:
 
@@ -204,8 +203,7 @@ To install health_check as middleware add the following line to the config/appli
 config.middleware.insert_after Rails::Rack::Logger, HealthCheck::MiddlewareHealthcheck
 ```
 
-Note: health_check is installed as a full rails engine even if it has been installed as middleware. This is so the
-remaining checks continue to run through the complete rails stack.
+Note: health_check is installed as a full rails engine even if it has been installed as middleware. This is so the remaining checks continue to run through the complete rails stack.
 
 You can also adjust what checks are run from middleware, eg if you want to exclude the checking of the database etc, then set
 
@@ -226,10 +224,10 @@ If an error is encounted, the text "health_check failed: some error message/s" w
 
 See
 
-- Pingdom Website Monitoring - https://www.pingdom.com
-- NewRelic Availability Monitoring - http://newrelic.com/docs/features/availability-monitoring-faq
-- Engine Yard's guide - https://support.cloud.engineyard.com/entries/20996821-monitor-application-uptime (although the guide is based on fitter_happier plugin it will also work with this gem)
-- Nagios check_http (with -s success) - https://www.nagios-plugins.org/doc/man/check_http.html
+- Pingdom Website Monitoring - <https://www.pingdom.com/>
+- NewRelic Availability Monitoring - <https://newrelic.com/>
+- Engine Yard's guide - <https://support.engineyard.com/hc/en-us/articles/7598752539282-Monitor-Application-Uptime> (although the guide is based on fitter_happier plugin it will also work with this gem)
+- Nagios check_http (with -s success) - <https://nagios-plugins.org/doc/man/check_http.html>
 - Any other montoring service that can be set to check for the word success in the text returned from a url
 
 ### Requesting Json and XML responses

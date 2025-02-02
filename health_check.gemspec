@@ -8,13 +8,13 @@ Gem::Specification.new do |gem|
   gem.name          = 'health_check'
   gem.version       = HealthCheck::VERSION
   gem.required_rubygems_version = Gem::Requirement.new('>= 0') if gem.respond_to? :required_rubygems_version=
-  gem.authors       = ['Ian Heggie']
+  gem.authors       = ['Ian Heggie', 'Alexander Meindl']
   gem.email         = ['ian@heggie.biz']
   gem.summary = 'Simple health check of Rails app for uptime monitoring with Pingdom, NewRelic, EngineYard etc.'
   gem.description = <<-EOF
   	Simple health check of Rails app for uptime monitoring with Pingdom, NewRelic, EngineYard etc.
   EOF
-  gem.homepage      = 'https://github.com/ianheggie/health_check'
+  gem.homepage      = 'https://github.com/alphanodes/health_check'
   gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split $/
