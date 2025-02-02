@@ -5,6 +5,8 @@
 
 module HealthCheck
   class Utils
+    # TODO: convert class variables to better solution
+    # rubocop: disable Style/ClassVars
     @@default_smtp_settings =
       {
         address: 'localhost',
@@ -15,7 +17,9 @@ module HealthCheck
         authentication: nil,
         enable_starttls_auto: true
       }
+    # rubocop: enable Style/ClassVars
 
+    cattr_writer :db_migrate_path
     cattr_accessor :default_smtp_settings
 
     class << self
@@ -100,11 +104,7 @@ module HealthCheck
 
       def db_migrate_path
         # Lazy initialisation so Rails.root will be defined
-        @@db_migrate_path ||= Rails.root.join 'db', 'migrate'.to_s
-      end
-
-      def db_migrate_path=(value)
-        @@db_migrate_path = value
+        @db_migrate_path ||= Rails.root.join 'db', 'migrate'.to_s
       end
 
       def mailer_configured?
