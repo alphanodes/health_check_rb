@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2010-2013 Ian Heggie, released under the MIT license.
-# See MIT-LICENSE for details.
-
 module HealthCheck
   class Engine < ::Rails::Engine
     cattr_accessor :routes_explicitly_defined

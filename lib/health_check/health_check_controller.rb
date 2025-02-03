@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2010-2021 Ian Heggie, released under the MIT license.
-# See MIT-LICENSE for details.
 require 'ipaddr'
 
 module HealthCheck
