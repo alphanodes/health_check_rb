@@ -8,7 +8,7 @@ The basic goal is to quickly check that rails is up and running and that it has 
 
 health_check provides various monitoring URIs, for example:
 
-```console
+```shell
 curl localhost:3000/health_check
 success
 
@@ -27,7 +27,7 @@ You may also issue POST calls instead of GET to these urls.
 
 On failure (detected by health_check) a 500 http status is returned with a simple explanation of the failure (if include_error_in_response_body is true)
 
-```console
+```shell
 curl localhost:3000/health_check/fail
 health_check failed: invalid argument to health_test.
 ```
@@ -36,7 +36,7 @@ The health_check controller disables sessions for versions that eagerly load ses
 
 ## Supported Versions
 
-* Ruby 3.1, 3.2, 3.3
+* Ruby 3.1, 3.2, 3.3, 3.4
 * Rails 7.2, 8.0
 
 ## Checks
@@ -74,14 +74,8 @@ gem 'health_check'
 
 And then execute
 
-```console
-bundle
-```
-
-Or install it yourself as:
-
-```console
-gem install health_check
+```shell
+bundle install
 ```
 
 ## Configuration
