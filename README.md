@@ -10,12 +10,25 @@ health_check provides various monitoring URIs, for example:
 
 ```shell
 curl localhost:3000/health_check
+```
+
+```text
 success
+```
 
+```shell
 curl localhost:3000/health_check/all.json
-{"healthy":true,"message":"success"}
+```
 
+```json
+{ "healthy": true, "message": "success" }
+```
+
+```shell
 curl localhost:3000/health_check/database_cache_migration.xml
+```
+
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <hash>
   <healthy type="boolean">true</healthy>
