@@ -31,6 +31,10 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
+      - name: Test rails
+        run: |
+          bundle exec rails -v
+
       - name: Setup smtp_mock for ruby
         run: |
           bundle exec smtp_mock -i ~
