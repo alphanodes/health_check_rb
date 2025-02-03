@@ -321,9 +321,9 @@ Last-modified is set to the current time (rounded down to a multiple of max_age 
 
 ## Similar projects
 
-* health_check by Ian Heggie - this plugin is a fork of it
-* fitter_happier plugin by atmos - plugin with similar goals, but not compatible with uptime, and does not check email gateway
-* HealthBit - inspired by this gem but with a fresh start as a simpler rack only application, no travis CI tests (yet?) but looks interesting.
+* [health_check](https://github.com/Purple-Devs/health_check) by Ian Heggie - this plugin is a fork of it
+* [fitter_happier](https://github.com/nulogy/fitter-happier) plugin by atmos - plugin with similar goals, but not compatible with uptime, and does not check email gateway
+* [HealthBit](https://github.com/shlima/health_bit) - inspired by this gem but with a fresh start as a simpler rack only application
 
 ## Manual testing
 
