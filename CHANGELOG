@@ -7,7 +7,7 @@
   * Updated to test rails 6.0 and 6.1
   * Got all travis tests passing
   * Removed old, unused branches
-  * Merged PR Fix broken Cache-Control headers #93 from felixbuenemann 
+  * Merged PR Fix broken Cache-Control headers #93 from felixbuenemann
   * Merged PR S3 should not depend on Rails secrets file #77 by natefaerber
   * Merged PR RabbitMQ Health check #98 from rhuanbarreto
   * Merged PR Use remote_ip to accept proxy-forwarded requests #102 by alessio-signorini but made it optional
@@ -15,52 +15,57 @@
   * Always log the error to rails log even if not including in html response
   * Merged PR ensure REDIS connections are closed #88 from yld
   * Merged PR more robust cache check #90 from masciugo
-  * Merged PR Add log_level config setting which defaults to 'info'. #97 from FloHeinle 
+  * Merged PR Add log_level config setting which defaults to 'info'. #97 from FloHeinle
   * Merged PR get rid of old school hash rockets syntax #92 from DmytroStepaniuk
   * Merged PR Converted whitelist testing to use IPAddr objects. #64 jordanyaker
   * Added on_success and on_failure callbacks
-  * Makes sure errors are seperated by a period and a space and a period always ends the list of errors
+  * Makes sure errors are separated by a period and a space and a period always ends the list of errors
 
 * 3.0.0
- * First release on rails5 branch
- * Depends on railties rather than rails so it can be used with trimmed down stacks
- * Corrected ruby version required to match rails
- * Cleaned up README
- * redis_url now defaults to nil (url determined by redis gem)
- * Cleaned out rails 4.0 dependent code
- * Cleaned up test code and updated to rails 5 standards, uses smarter_bundler to handle gem ruby version isssues
- * Added rails 5.1 test
- * Split all releases to this rails* branchs - master is only for edge development
+  * First release on rails5 branch
+  * Depends on railties rather than rails so it can be used with trimmed down stacks
+  * Corrected ruby version required to match rails
+  * Cleaned up README
+  * redis_url now defaults to nil (url determined by redis gem)
+  * Cleaned out rails 4.0 dependent code
+  * Cleaned up test code and updated to rails 5 standards, uses smarter_bundler to handle gem ruby version issues
+  * Added rails 5.1 test
+  * Split all releases to this rails* branches - master is only for edge development
 
 * 2.7.0
- * Add ability to check health of redis when url is non-standard redis url
+  * Add ability to check health of redis when url is non-standard redis url
+
 * 2.6.0
- * Add named custom checks
+  * Add named custom checks
+
 * 2.5.0
- * Added whitelist for IP# (Thanks Fernando Alvarez)
- * reworked whitelist PR
- * Expanded tests for whitelist and basic authentication
- * reworked middleware, simplified error codes, added whitelist and basic authentication into middleware
- * Removed unit tests as they where aonly applicable under rails 2.3 when installed in vendor/plugins
- * #55 by mnoack - correct binstubs arg in test
- * #54 by gkop - Lograge config snippet works with Rails 4.2.7.1, lograge 0.4.1 
- * Used ideas from #52 - use middleware to catch Rails stack exceptions
- * #51 by tokenshift - Fixing NameError on `basic_auth_username`.
- * Changes to address #50 by fillphafftek - allow standard check to be run from middleware if configured to do so, removed requirement for "middleware" to be passed in url for middleware tests
+  * Added whitelist for IP# (Thanks Fernando Alvarez)
+  * reworked whitelist PR
+  * Expanded tests for whitelist and basic authentication
+  * reworked middleware, simplified error codes, added whitelist and basic authentication into middleware
+  * Removed unit tests as they where aonly applicable under rails 2.3 when installed in vendor/plugins
+  * #55 by mnoack - correct binstubs arg in test
+  * #54 by gkop - Lograge config snippet works with Rails 4.2.7.1, lograge 0.4.1
+  * Used ideas from #52 - use middleware to catch Rails stack exceptions
+  * #51 by tokenshift - Fixing NameError on `basic_auth_username`.
+  * Changes to address #50 by fillphafftek - allow standard check to be run from middleware if configured to do so, removed requirement for "middleware" to be passed in url for middleware tests
+
 * 2.4.0
- * Added tests for middleware
- * Changed contributed middleware code to conform to existing url scheme
- * Allow both GET and POST calls
- * Prefer config.uri for changing route prefix
+  * Added tests for middleware
+  * Changed contributed middleware code to conform to existing url scheme
+  * Allow both GET and POST calls
+  * Prefer config.uri for changing route prefix
+
 * 2.3.0
- * Fix route reload issue
- * Various fixes to get tests working with bundle/jruby and other gem issues
- * Document additional branches
- * Fix route reload issue (auto routing previosuly conflicted with devise)
- * Removed ref to rails 2.3, 3.*
+  * Fix route reload issue
+  * Various fixes to get tests working with bundle/jruby and other gem issues
+  * Document additional branches
+  * Fix route reload issue (auto routing previously conflicted with devise)
+  * Removed ref to rails 2.3, 3.*
 
 * 2.2.1
   * Adjust private/public cache-control based on max_age set
+
 * 2.2.0
   * Add max_age so we can control the caching of responses, don't run tests if Last-modified still matches
   * Added basic auth - Thanks omadahealth
@@ -77,20 +82,34 @@
   * Added Rails 5.0 tests
 
 * 2.0.0 - Removed silence - recommend to use a log filtering gem instead
+
 * 1.4.1 - Rails 4 and route changes
   * Now handles routes being generated multiple times by some gem / rails / ruby combinations - Previously multiple calls to health_check_routes where ignored, now explicit calls to health_check_route always adds the route but flags that it doesn't have to be added again on the end of the list
   * Uses ActiveRecord::Migration.check_pending! if available and returns the message if an exception is raised (Rails 4.0+)
   * Simplified routing rules down to one rule for Rails 3.0+
   * Includes some changes for rails 4.1 (edge) - but still a work in progress
-* 1.3.1 - Include changes from contributers:
+
+* 1.3.1 - Include changes from contributors:
   * Migrations with dots are now handled
   * the list of checks for "full" / "all" can be configured
-* 1.2.0 - The gem can now be configured, including timeouts, status codes and text returned on success
-        - Customn checks can be added via initializer like config.add_custom_check { CustomCheckClass.a_custom_check }
-	- You can now request the response to be json or xml (via url or Content-accepted header)
-	- reduced tests to the versions of ruby recomended for the different versions of rails
-* 1.1.2 - Change to bundler support for building gems, as jeweler gem was broken by v2.0.0 of rubygems
-* 1.1.0 - Include cache check (Thanks to https://github.com/mgomes1 ) and some changes to test setup to workaround and diagnose test failures under rvm
-* 1.0.2 - Included travis config and gemfiles used in travis tests in gem and changes to test setup so that gem test 
-* 1.x - Includes Rails 3.x suppprt as an Engine
-* 0.x - Rails 2.3
+
+* 1.2.0
+  * The gem can now be configured, including timeouts, status codes and text returned on success
+  * Custom checks can be added via initializer like config.add_custom_check { CustomCheckClass.a_custom_check }
+  * You can now request the response to be json or xml (via url or Content-accepted header)
+  * reduced tests to the versions of ruby recommended for the different versions of rails
+
+* 1.1.2
+  * Change to bundler support for building gems, as jeweler gem was broken by v2.0.0 of rubygems
+
+* 1.1.0
+  * Include cache check (Thanks to <https://github.com/mgomes1>) and some changes to test setup to workaround and diagnose test failures under rvm
+
+* 1.0.2
+  * Included travis config and gemfiles used in travis tests in gem and changes to test setup so that gem test
+
+* 1.x
+  * Includes Rails 3.x suppprt as an Engine
+
+* 0.x
+  * Rails 2.3

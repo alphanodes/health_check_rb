@@ -11,10 +11,10 @@ module HealthCheck
 
         HealthCheck.buckets.each do |bucket_name, permissions|
           permissions = %i[read write delete] if permissions.nil? # backward compatible
-          permissions.each do |permision|
-            send :"try_#{permision}", bucket_name
+          permissions.each do |permission|
+            send :"try_#{permission}", bucket_name
           rescue StandardError => e
-            raise "bucket:#{bucket_name}, permission:#{permision} - #{e.message}"
+            raise "bucket:#{bucket_name}, permission:#{permission} - #{e.message}"
           end
         end
         ''

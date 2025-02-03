@@ -58,7 +58,7 @@ The health_check controller disables sessions for versions that eagerly load ses
 ## Checks
 
 * standard (default) - site, database and migrations checks are run plus email if ActionMailer is defined and it is not using the default configuration
-* all / full - all checks are run (can be overriden in config block)
+* all / full - all checks are run (can be overridden in config block)
 * cache - checks that a value can be written to the cache
 * custom - runs checks added via config.add_custom_check
 * database - checks that the current migration level can be read from the database
@@ -172,7 +172,7 @@ HealthCheck.setup do |config|
   config.origin_ip_whitelist = %w(123.123.123.123 10.11.12.0/24 2400:cb00::/32)
 
   # Use ActionDispatch::Request's remote_ip method when behind a proxy to pick up the real remote IP for origin_ip_whitelist check
-  # Otherwise uses Rack::Request's ip method (the default, and always used by Middleware), which is more susceptable to spoofing
+  # Otherwise uses Rack::Request's ip method (the default, and always used by Middleware), which is more susceptible to spoofing
   # See https://stackoverflow.com/questions/10997005/whats-the-difference-between-request-remote-ip-and-request-ip-in-rails
   config.accept_proxied_requests = false
 
@@ -234,7 +234,7 @@ When installed as middleware, exceptions thrown when running the full stack test
 Use a website monitoring service to check the url regularly for the word "success" (without the quotes) rather than just a 200 http status so
 that any substitution of a different server or generic information page should also be reported as an error.
 
-If an error is encounted, the text "health_check failed: some error message/s" will be returned and the http status will be 500.
+If an error is encountered, the text "health_check failed: some error message/s" will be returned and the http status will be 500.
 
 See
 
@@ -290,7 +290,7 @@ See <https://github.com/ianheggie/health_check/wiki/Ajax-Example> for an Ajax ex
 
 ## Silencing log output
 
-It is recomended that you use silencer, lograge or one of the other log filtering gems.
+It is recommended that you use silencer, lograge or one of the other log filtering gems.
 
 For example, with lograge use the following to exclude health_check from being logged:
 
