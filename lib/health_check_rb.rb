@@ -125,7 +125,6 @@ end
 require 'health_check_rb/version'
 require 'health_check_rb/base_health_check'
 require 'health_check_rb/utils'
-require 'health_check_rb/health_check_controller'
 require 'health_check_rb/health_check_routes'
 require 'health_check_rb/middleware_health_check'
 
