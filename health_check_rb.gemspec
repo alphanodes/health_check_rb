@@ -9,7 +9,7 @@ Gem::Specification.new do |gem|
   gem.version       = HealthCheckRb::VERSION
   gem.required_rubygems_version = Gem::Requirement.new('>= 0') if gem.respond_to? :required_rubygems_version=
   gem.authors       = ['Ian Heggie', 'Alexander Meindl']
-  gem.email         = ['ian@heggie.biz']
+  gem.email         = ['alex@alphanodes.com']
   gem.summary = 'Simple health check of Rails app for uptime monitoring with Pingdom, NewRelic, EngineYard etc.'
   gem.description = <<-EOF
   	Simple health check of Rails app for uptime monitoring with Pingdom, NewRelic, EngineYard etc.
