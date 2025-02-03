@@ -78,10 +78,15 @@ module HealthCheckRb
 
   mattr_accessor :installed_as_middleware
 
-  # Allow non-standard redis url and password
+  # Allow non-standard redis url
   mattr_accessor :redis_url
   self.redis_url = ENV.fetch 'REDIS_URL', nil
 
+  # Allow non-standard redis user
+  mattr_accessor :redis_username
+  self.redis_username = ENV.fetch 'REDIS_USERNAME', nil
+
+  # Allow non-standard redis password
   mattr_accessor :redis_password
   self.redis_password = ENV.fetch 'REDIS_PASSWORD', nil
 

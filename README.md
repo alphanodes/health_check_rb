@@ -186,6 +186,8 @@ HealthCheckRb.setup do |config|
 
   # When redis url/password is non-standard
   config.redis_url = 'redis_url' # default ENV['REDIS_URL']
+  # Only use if set, as url can optionally include username as well
+  config.redis_username = 'redis_username' # default ENV['REDIS_USERNAME']
   # Only included if set, as url can optionally include passwords as well
   config.redis_password = 'redis_password' # default ENV['REDIS_PASSWORD']
 

@@ -20,6 +20,7 @@ module HealthCheckRb
           @client ||= Redis.new(
             {
               url: HealthCheckRb.redis_url,
+              username: HealthCheckRb.redis_username,
               password: HealthCheckRb.redis_password
             }.compact
           )
