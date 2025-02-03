@@ -7,9 +7,7 @@ module HealthCheckRb
 
       class << self
         def check
-          raise "Wrong configuration. Missing 'redis' gem" unless defined?(::Redis)
-
-          client.ping == 'PONG' ? '' : "Redis.ping returned #{res.inspect} instead of PONG"
+          client.call('PING') == 'PONG' ? '' : "ping returned #{res.inspect} instead of PONG"
         rescue StandardError => e
           create_error 'redis', e.message
         ensure
@@ -17,13 +15,21 @@ module HealthCheckRb
         end
 
         def client
-          @client ||= Redis.new(
-            {
-              url: HealthCheckRb.redis_url,
-              username: HealthCheckRb.redis_username,
-              password: HealthCheckRb.redis_password
-            }.compact
-          )
+          @client ||= if defined?(::Redis)
+                        Redis.new redis_config
+                      elsif defined?(::RedisClient)
+                        RedisClient.new redis_config
+                      else
+                        raise "Wrong configuration. Missing 'redis' or 'redis-client' gem"
+                      end
+        end
+
+        def redis_config
+          {
+            url: HealthCheckRb.redis_url,
+            username: HealthCheckRb.redis_username,
+            password: HealthCheckRb.redis_password
+          }.compact
         end
       end
     end
