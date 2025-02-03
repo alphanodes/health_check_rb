@@ -327,57 +327,16 @@ Last-modified is set to the current time (rounded down to a multiple of max_age 
 
 ## Manual testing
 
-The instructions have been changed to using a vagrant virtual box for consistent results.
-
-Install vagrant 1.9.7 or later and virtual_box or other local virtual machine provider.  Add the vagrant plugin called vbguest.
+You can run the tests locally as follows:
 
 ```shell
-vagrant plugin install vagrant-vbguest
+# install gem packages
+bundle install
+# install smtp_mock for e-mail tests
+bundle exec smtp_mock -i ~
+# run tests
+bundle exec rake
 ```
-
-Create a temp directory for throw away testing, and clone the health_check gem into it
-
-```shell
-mkdir -p ~/tmp
-cd ~/tmp
-git clone https://github.com/ianheggie/health_check.git ~/tmp/health_check
-```
-
-The Vagrantfile includes provisioning rules to install chruby (ruby version control),
-ruby-build will also be installed and run to build various rubies under /opt/rubies.
-
-Use <tt>vagrant ssh</tt> to connect to the virtual box and run tests.
-
-The test script will package up and install the gem under a temporary path, create a dummy rails app configured for sqlite,
-install the gem, and then run up tests against the server.
-This will require TCP port 3456 to be free.
-
-Cd to the checked out health_check directory and then run the test as follows:
-
-```shell
-cd ~/tmp/health_check
-
-vagrant up   # this will also run vagrant provision and take some time
-              # chruby and various ruby versions will be installed
-
-vagrant ssh
-
-cd /vagrant  # the current directory on your host is mounted here on the virtual machine
-
-chruby 2.2.2 # or some other ruby version (run chruby with no arguments to see the current list)
-
-test/test_with_railsapp
-
-exit        # from virtual machine when finished
-```
-
-The script will first call `test/setup_railsapp` to setup a rails app with health_check installed and then
-run up the rails server and perform veraious tests.
-
-The script `test/setup_railsapp` will prompt you for which gemfile under test you wish to use to install the appropriate rails version, and then
-setup tmp/railsapp accordingly.
-
-The command `rake test` will also launch these tests, except it cannot install the bundler and rake gems if they are missing first (unlike test/test_with_railsapp)
 
 ## Copyright
 
@@ -391,4 +350,4 @@ Thanks go to the various people who have given feedback and suggestions via the 
 
 ### Contributing
 
-*Feedback welcome! Especially with suggested replacement code, tests and documentation*
+Feedback welcome! Especially with suggested replacement code, tests and documentation
