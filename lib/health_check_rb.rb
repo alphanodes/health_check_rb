@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module HealthCheck
+module HealthCheckRb
   class Engine < ::Rails::Engine
     cattr_accessor :routes_explicitly_defined
   end
@@ -114,17 +114,16 @@ module HealthCheck
   end
 end
 
-require 'health_check/version'
-require 'health_check/base_health_check'
-require 'health_check/resque_health_check'
-require 'health_check/s3_health_check'
-require 'health_check/redis_health_check'
-require 'health_check/elasticsearch_health_check'
-require 'health_check/sidekiq_health_check'
-require 'health_check/utils'
-require 'health_check/health_check_controller'
-require 'health_check/health_check_routes'
-require 'health_check/middleware_health_check'
-require 'health_check/rabbitmq_health_check'
+require 'health_check_rb/version'
+require 'health_check_rb/base_health_check'
+require 'health_check_rb/utils'
+require 'health_check_rb/health_check_controller'
+require 'health_check_rb/health_check_routes'
+require 'health_check_rb/middleware_health_check'
 
-# vi: sw=2 sm ai:
+require 'health_check_rb/check/resque'
+require 'health_check_rb/check/s3'
+require 'health_check_rb/check/redis'
+require 'health_check_rb/check/elasticsearch'
+require 'health_check_rb/check/sidekiq'
+require 'health_check_rb/check/rabbitmq'

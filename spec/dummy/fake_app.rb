@@ -3,7 +3,7 @@
 Bundler.setup
 require 'rails'
 require 'rails/all'
-require 'health_check'
+require 'health_check_rb'
 Bundler.require
 
 FakeApp = Class.new Rails::Application

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe HealthCheck, type: :request do
+RSpec.describe HealthCheckRb, type: :request do
   context 'with /custom_route_prefix' do
     it 'works with smtp server and valid custom_check' do
       enable_custom_check do
@@ -237,22 +237,22 @@ RSpec.describe HealthCheck, type: :request do
   end
 
   context 'with whitelisted ip' do
-    after { HealthCheck.origin_ip_whitelist.clear }
+    after { HealthCheckRb.origin_ip_whitelist.clear }
 
     it 'works with access from valid ip address' do
-      HealthCheck.origin_ip_whitelist << '127.0.0.1'
+      HealthCheckRb.origin_ip_whitelist << '127.0.0.1'
       get '/custom_route_prefix/site'
       expect(response).to be_ok
     end
 
     it 'fails with access from invalid ip address' do
-      HealthCheck.origin_ip_whitelist << '123.123.123.123'
+      HealthCheckRb.origin_ip_whitelist << '123.123.123.123'
       get '/custom_route_prefix/site'
       expect(response.status).to eq(403)
     end
 
     it 'does not affect paths other than health_check' do
-      HealthCheck.origin_ip_whitelist << '123.123.123.123'
+      HealthCheckRb.origin_ip_whitelist << '123.123.123.123'
       get '/example'
       expect(response).to be_ok
     end
@@ -260,13 +260,13 @@ RSpec.describe HealthCheck, type: :request do
 
   context 'with basic auth' do
     before do
-      HealthCheck.basic_auth_username = 'username'
-      HealthCheck.basic_auth_password = 'password'
+      HealthCheckRb.basic_auth_username = 'username'
+      HealthCheckRb.basic_auth_password = 'password'
     end
 
     after do
-      HealthCheck.basic_auth_username = nil
-      HealthCheck.basic_auth_password = nil
+      HealthCheckRb.basic_auth_username = nil
+      HealthCheckRb.basic_auth_password = nil
     end
 
     it 'works with valid credentials' do

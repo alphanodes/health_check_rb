@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-require 'health_check'
+require 'health_check_rb'

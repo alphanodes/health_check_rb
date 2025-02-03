@@ -13,10 +13,10 @@ begin
   require 'rdoc/task'
 
   Rake::RDocTask.new do |rdoc|
-    version = HealthCheck::VERSION
+    version = HealthCheckRb::VERSION
 
     rdoc.rdoc_dir = 'rdoc'
-    rdoc.title = "health_check #{version}"
+    rdoc.title = "health_check_rb #{version}"
     rdoc.rdoc_files.include 'README*'
     rdoc.rdoc_files.include 'CHANGELOG'
     rdoc.rdoc_files.include 'MIT-LICENSE'

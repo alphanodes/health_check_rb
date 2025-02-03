@@ -1,8 +1,10 @@
-# health_check gem
+# health_check_rb gem
 
-[![Tests](https://github.com/AlphaNodes/health_check/workflows/Tests/badge.svg)](https://github.com/alphanodes/health_check/actions/workflows/tests.yml) [![Run Linters](https://github.com/alphanodes/health_check/workflows/Run%20Linters/badge.svg)](https://github.com/alphanodes/health_check/actions/workflows/linters.yml)
+[![Tests](https://github.com/AlphaNodes/health_check_rb/workflows/Tests/badge.svg)](https://github.com/alphanodes/health_check_rb/actions/workflows/tests.yml) [![Run Linters](https://github.com/alphanodes/health_check_rb/workflows/Run%20Linters/badge.svg)](https://github.com/alphanodes/health_check_rb/actions/workflows/linters.yml)
 
 Simple health check of Rails apps for use with Pingdom, NewRelic, EngineYard etc.
+
+This is a fork of <https://github.com/Purple-Devs/health_check>
 
 The basic goal is to quickly check that rails is up and running and that it has access to correctly configured resources (database, email gateway)
 
@@ -85,7 +87,7 @@ Note: rails also checks migrations by default in development mode and throws an 
 Add the following line to Gemfile (after the rails gems are listed)
 
 ```ruby
-gem 'health_check'
+gem 'health_check_rb'
 ```
 
 And then execute
@@ -96,10 +98,10 @@ bundle install
 
 ## Configuration
 
-To change the configuration of health_check, create a file `config/initializers/health_check.rb` and add a configuration block like:
+To change the configuration of health_check, create a file `config/initializers/health_check_rb.rb` and add a configuration block like:
 
 ```ruby
-HealthCheck.setup do |config|
+HealthCheckRb.setup do |config|
 
   # uri prefix (no leading slash)
   config.uri = 'health_check'
@@ -204,7 +206,7 @@ You may call add_custom_check multiple times with different tests. These tests w
 If you have a catchall route then add the following line above the catch all route (in `config/routes.rb`):
 
 ```ruby
-health_check_routes
+health_check_rb_routes
 ```
 
 ### Installing As Middleware
@@ -214,7 +216,7 @@ Install health_check as middleware if you want to sometimes ignore exceptions fr
 To install health_check as middleware add the following line to the config/application.rb:
 
 ```ruby
-config.middleware.insert_after Rails::Rack::Logger, HealthCheck::MiddlewareHealthcheck
+config.middleware.insert_after Rails::Rack::Logger, HealthCheckRb::MiddlewareHealthcheck
 ```
 
 Note: health_check is installed as a full rails engine even if it has been installed as middleware. This is so the remaining checks continue to run through the complete rails stack.
@@ -295,7 +297,7 @@ It is recommended that you use silencer, lograge or one of the other log filteri
 For example, with lograge use the following to exclude health_check from being logged:
 
 ```ruby
-config.lograge.ignore_actions = ["HealthCheck::HealthCheckController#index"]
+config.lograge.ignore_actions = ["HealthCheckRb::HealthCheckController#index"]
 ```
 
 Likewise you will probably want to exclude health_check from monitoring systems like newrelic.
@@ -313,12 +315,11 @@ Last-modified is set to the current time (rounded down to a multiple of max_age 
 
 ## Known Issues
 
-* See <https://github.com/ianheggie/health_check/issues>
-* No inline documentation for methods
-* **rvm gemsets breaks the test** - specifically <tt>rvm use 1.9.3</tt> works but <tt>rvm gemset use ruby-1.9.3-p385@health_check --create</tt> triggers a "Could not find gem 'coffee-rails (~> 3.2.1) ruby' in the gems available on this machine." error in the last call to bundle (installing health_check as a gem via a path into the temp railsapp)
+* See <https://github.com/alphanodes/health_check_rb/issues>
 
 ## Similar projects
 
+* health_check by Ian Heggie - this plugin is a fork of it
 * fitter_happier plugin by atmos - plugin with similar goals, but not compatible with uptime, and does not check email gateway
 * HealthBit - inspired by this gem but with a fresh start as a simpler rack only application, no travis CI tests (yet?) but looks interesting.
 
@@ -378,6 +379,7 @@ The command `rake test` will also launch these tests, except it cannot install t
 
 ## Copyright
 
+Copyright (c) 2025 Alexander Meindl, released under the MIT license.
 Copyright (c) 2010-2021 Ian Heggie, released under the MIT license.
 See MIT-LICENSE for details.
 
@@ -386,20 +388,5 @@ See MIT-LICENSE for details.
 Thanks go to the various people who have given feedback and suggestions via the issues list and pull requests.
 
 ### Contributing
-
-Use gem versions for stable releases, or github branch / commits for development versions:
-
-* for Rails 5.x and 6.x use feature branched off master [master](https://github.com/ianheggie/health_check/tree/master) for development;
-* for Rails 4.x use feature branches off the [rails4](https://github.com/ianheggie/health_check/tree/rails4) stable branch for development;
-* for Rails 3.x use feature branches off the [rails3](https://github.com/ianheggie/health_check/tree/rails3) stable branch for development;
-* for Rails 2.3 use feature branches off the [rails2.3](https://github.com/ianheggie/health_check/tree/rails2.3) stable branch for development;
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Create a test that confirms your changes work
-4. Update README.rdoc to explain enhancements, or add succinct comment in code when fixing bugs
-5. Commit your changes (`git commit -am 'Add some feature'`)
-6. Push to the branch (`git push origin my-new-feature`)
-7. Create new Pull Request (Code with BDD tests and documentation are highly favoured)
 
 *Feedback welcome! Especially with suggested replacement code, tests and documentation*

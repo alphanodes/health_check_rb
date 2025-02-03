@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-unless HealthCheck::Engine.routes_explicitly_defined
+unless HealthCheckRb::Engine.routes_explicitly_defined
   Rails.application.routes.draw do
-    add_health_check_routes
+    add_health_check_rb_routes
   end
 end
