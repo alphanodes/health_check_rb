@@ -42,6 +42,9 @@ On failure (detected by health_check) a 500 http status is returned with a simpl
 
 ```shell
 curl localhost:3000/health_check/fail
+```
+
+```text
 health_check failed: invalid argument to health_test.
 ```
 
