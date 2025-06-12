@@ -101,7 +101,7 @@ module HealthCheckRb
 
       def db_migrate_path
         # Lazy initialisation so Rails.root will be defined
-        @db_migrate_path ||= Rails.root.join 'db', 'migrate'.to_s
+        @db_migrate_path ||= Rails.root.join 'db', 'migrate'
       end
 
       def mailer_configured?
