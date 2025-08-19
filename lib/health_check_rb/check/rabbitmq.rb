@@ -4,6 +4,7 @@ module HealthCheckRb
   module Check
     class RabbitMQ
       extend BaseHealthCheck
+
       def self.check
         raise "Wrong configuration. Missing 'bunny' gem" unless defined?(::Bunny)
 

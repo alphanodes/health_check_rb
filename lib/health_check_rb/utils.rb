@@ -173,7 +173,7 @@ module HealthCheckRb
         ret = ::Rails.cache.read '__health_check_cache_test__'
         if ret.to_s =~ /^ok (\d+)$/
           diff = (::Regexp.last_match(1).to_i - t).abs
-          return('Cache expiry is broken. ') if diff > 30
+          return 'Cache expiry is broken. ' if diff > 30
         elsif ret
           return 'Cache is returning garbage. '
         end
